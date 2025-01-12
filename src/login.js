@@ -93,7 +93,7 @@ function Login() {
     <Box
       sx={{
         display: "flex",
-        justifyContent: "center",
+        // justifyContent: "center",
       }}
     >
       <Grid2 container spacing={2} p={2}>
