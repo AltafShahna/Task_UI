@@ -2,8 +2,12 @@ import React from "react";
 import { Grid2, Box, Typography } from "@mui/material";
 import { Droppable } from "react-beautiful-dnd";
 import TaskCard from "./TaskCard";
+import { useDataController } from "./Context";
 
-const TaskList = ({ tasks, status }) => {
+const TaskList = ({ status }) => {
+  const [controller] = useDataController();
+  const { taskData } = controller;
+  // console.log("taskstasks", taskData, status);
   return (
     <Grid2 item xs={4}>
       <Box sx={{ bgcolor: "#4F75FF", p: 1 }}>
@@ -16,10 +20,14 @@ const TaskList = ({ tasks, status }) => {
             ref={provided.innerRef}
             style={{ minHeight: "100px" }}
           >
-            {tasks
-              .filter((task) => task.status === status)
-              .map((task, index) => (
-                <TaskCard key={task.id} task={task} index={index} />
+            {taskData
+              .filter((taskData1) => taskData1.status === status)
+              .map((taskData2, index) => (
+                <TaskCard
+                  key={taskData2.id}
+                  taskData2={taskData2}
+                  index={index}
+                />
               ))}
             {provided.placeholder}
           </div>

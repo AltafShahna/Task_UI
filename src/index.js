@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { BrowserRouter } from "react-router-dom";
+import { DataControllerProvider } from "./Context";
 
 // const root = ReactDOM.createRoot(document.getElementById("root"));
 // root.render(
@@ -21,7 +22,9 @@ reportWebVitals();
 ReactDOM.createRoot(document.getElementById("root")).render(
   <GoogleOAuthProvider clientId="154187564843-q4p5l0plkgs7bah9ad6nk9ovhdr6jhln.apps.googleusercontent.com">
     <BrowserRouter>
-      <App />
+      <DataControllerProvider>
+        <App />
+      </DataControllerProvider>
     </BrowserRouter>
   </GoogleOAuthProvider>
 );

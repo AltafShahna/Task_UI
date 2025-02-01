@@ -1,12 +1,12 @@
 import { createContext, useContext, useMemo, useReducer } from "react";
 import PropTypes from "prop-types";
 
-const Data = createContext(null);
+const Data = createContext();
 
 function reducer(state, action) {
   let stateL = state;
   switch (action.type) {
-    case "Task Data": {
+    case "setTaskData": {
       stateL = { ...state, taskData: action.value };
       return stateL;
     }
@@ -18,9 +18,10 @@ function reducer(state, action) {
 
 function DataControllerProvider({ children }) {
   const initialState = {
-    taskData: {},
+    taskData: [],
   };
   const [controller, dispatch] = useReducer(reducer, initialState);
+
   const value = useMemo(() => [controller, dispatch], [controller, dispatch]);
 
   return <Data.Provider value={value}>{children}</Data.Provider>;
@@ -36,7 +37,6 @@ function useDataController() {
   }
   return context;
 }
-
 DataControllerProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };

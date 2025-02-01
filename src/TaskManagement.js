@@ -2,50 +2,57 @@ import React, { useState } from "react";
 import { Grid2, Button, TextField, Box } from "@mui/material";
 import { DragDropContext } from "react-beautiful-dnd";
 import TaskList from "./TaskList";
+import { useDataController, setTaskData } from "./Context";
 
 const TaskManagement = () => {
-  const [tasks, setTasks] = useState([
-    // {
-    //   id: "1",
-    //   title: "Task 1",
-    //   description: "Description 1",
-    //   status: "TODO",
-    //   createdAt: new Date().toLocaleString(),
-    // },
-    // {
-    //   id: 2,
-    //   title: "Task 2",
-    //   description: "Description 2",
-    //   status: "TODO",
-    //   createdAt: new Date().toLocaleString(),
-    // },
-    // {
-    //   id: 3,
-    //   title: "Task 3",
-    //   description: "Description 3",
-    //   status: "IN PROGRESS",
-    //   createdAt: new Date().toLocaleString(),
-    // },
-    // {
-    //   id: 4,
-    //   title: "Task 4",
-    //   description: "Description 4",
-    //   status: "DONE",
-    //   createdAt: new Date().toLocaleString(),
-    // },
-  ]);
+  const [controller, dispatch] = useDataController();
+  const { taskData } = controller;
+  const TaskData = taskData;
+
+  // const [TaskData, setTasks] = useState([
+  //   // {
+  //   //   id: "1",
+  //   //   title: "Task 1",
+  //   //   description: "Description 1",
+  //   //   status: "TODO",
+  //   //   createdAt: new Date().toLocaleString(),
+  //   // },
+  //   // {
+  //   //   id: 2,
+  //   //   title: "Task 2",
+  //   //   description: "Description 2",
+  //   //   status: "TODO",
+  //   //   createdAt: new Date().toLocaleString(),
+  //   // },
+  //   // {
+  //   //   id: 3,
+  //   //   title: "Task 3",
+  //   //   description: "Description 3",
+  //   //   status: "IN PROGRESS",
+  //   //   createdAt: new Date().toLocaleString(),
+  //   // },
+  //   // {
+  //   //   id: 4,
+  //   //   title: "Task 4",
+  //   //   description: "Description 4",
+  //   //   status: "DONE",
+  //   //   createdAt: new Date().toLocaleString(),
+  //   // },
+  // ]);
   const [taskInput, setTaskInput] = useState("");
   const [descriptionInput, setDescriptionInput] = useState("");
 
   const addTask = () => {
     const newTask = {
-      id: (tasks.length + 1).toString(),
+      id: (TaskData.length + 1).toString(),
       title: taskInput,
       description: descriptionInput,
       status: "TODO",
       createdAt: new Date().toLocaleString(),
     };
-    setTasks([...tasks, newTask]);
+
+    setTaskData(dispatch, [...TaskData, newTask]);
+    // setTasks([...TaskData, newTask]);
     setTaskInput("");
     setDescriptionInput("");
   };
@@ -61,16 +68,22 @@ const TaskManagement = () => {
       return;
     }
 
-    const updatedTasks = [...tasks];
+    const updatedTasks = [...TaskData];
     const draggedTask = updatedTasks.find((task) => task.id === draggableId);
 
     // Update the status of the dragged task based on the column it was dropped in
     if (draggedTask) {
       draggedTask.status = destination.droppableId;
     }
-
-    setTasks(updatedTasks);
+    setTaskData(dispatch, updatedTasks);
+    // setTasks(dispatch, updatedTasks);
   };
+
+  // useEffect((dispatch) => {
+  //   // const Data =
+  //   // {};
+  //   setTasks(dispatch, {});
+  // }, []);
 
   return (
     <div>
@@ -107,7 +120,7 @@ const TaskManagement = () => {
                 xxl: 4,
               }}
             >
-              <TaskList tasks={tasks} status="TODO" />
+              <TaskList status="TODO" />
             </Grid2>
             <Grid2
               size={{
@@ -119,7 +132,7 @@ const TaskManagement = () => {
                 xxl: 4,
               }}
             >
-              <TaskList tasks={tasks} status="IN PROGRESS" />
+              <TaskList status="IN PROGRESS" />
             </Grid2>
             <Grid2
               size={{
@@ -131,7 +144,7 @@ const TaskManagement = () => {
                 xxl: 4,
               }}
             >
-              <TaskList tasks={tasks} status="DONE" />
+              <TaskList status="DONE" />
             </Grid2>
           </Grid2>
         </DragDropContext>
