@@ -10,6 +10,10 @@ function reducer(state, action) {
       stateL = { ...state, taskData: action.value };
       return stateL;
     }
+    case "setInputData": {
+      stateL = { ...state, inputData: action.value };
+      return stateL;
+    }
     default: {
       return state;
     }
@@ -19,6 +23,10 @@ function reducer(state, action) {
 function DataControllerProvider({ children }) {
   const initialState = {
     taskData: [],
+    inputData: {
+      taskInput: "",
+      descriptionInput: "",
+    },
   };
   const [controller, dispatch] = useReducer(reducer, initialState);
 
@@ -43,5 +51,7 @@ DataControllerProvider.propTypes = {
 
 const setTaskData = (dispatch, value) =>
   dispatch({ type: "setTaskData", value });
+const setInputData = (dispatch, value) =>
+  dispatch({ type: "setInputData", value });
 
-export { DataControllerProvider, useDataController, setTaskData };
+export { DataControllerProvider, useDataController, setTaskData, setInputData };

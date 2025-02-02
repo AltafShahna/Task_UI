@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { Grid2, Button, TextField, Box } from "@mui/material";
 import { DragDropContext } from "react-beautiful-dnd";
 import TaskList from "./TaskList";
-import { useDataController, setTaskData } from "./Context";
+import { useDataController, setTaskData, setInputData } from "./Context";
 
 const TaskManagement = () => {
   const [controller, dispatch] = useDataController();
-  const { taskData } = controller;
+  const { taskData, inputData } = controller;
   const TaskData = taskData;
+  const InputData = inputData;
 
   // const [TaskData, setTasks] = useState([
   //   // {
@@ -39,22 +40,31 @@ const TaskManagement = () => {
   //   //   createdAt: new Date().toLocaleString(),
   //   // },
   // ]);
-  const [taskInput, setTaskInput] = useState("");
-  const [descriptionInput, setDescriptionInput] = useState("");
+  // const [taskInput, setTaskInput] = useState("");
+  // const [descriptionInput, setDescriptionInput] = useState("");
+
+  const onhandleChange = (e) => {
+    InputData[e.target.name] = e.target.value;
+    setInputData(dispatch, InputData);
+  };
 
   const addTask = () => {
     const newTask = {
       id: (TaskData.length + 1).toString(),
-      title: taskInput,
-      description: descriptionInput,
+      title: InputData.taskInput,
+      description: InputData.descriptionInput,
       status: "TODO",
       createdAt: new Date().toLocaleString(),
     };
 
     setTaskData(dispatch, [...TaskData, newTask]);
     // setTasks([...TaskData, newTask]);
-    setTaskInput("");
-    setDescriptionInput("");
+    setInputData(dispatch, {
+      taskInput: "",
+      descriptionInput: "",
+    });
+    // setTaskInput("");
+    // setDescriptionInput("");
   };
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
@@ -89,22 +99,28 @@ const TaskManagement = () => {
     <div>
       <Box>
         <Grid2 container spacing={2} p={2}>
-          {/* <div style={{ margin: "20px 0" }}> */}
           <TextField
-            label="Task"
+            size="small"
+            label="Task Name"
             variant="outlined"
-            value={taskInput}
-            onChange={(e) => setTaskInput(e.target.value)}
-            // style={{ marginRight: "10px" }}
+            name="taskInput"
+            value={InputData.taskInput}
+            onChange={(e) => onhandleChange(e)}
           />
           <TextField
-            label="Description"
+            size="small"
+            label="Task Description"
             variant="outlined"
-            value={descriptionInput}
-            onChange={(e) => setDescriptionInput(e.target.value)}
-            style={{ marginRight: "10px" }}
+            name="descriptionInput"
+            value={InputData.descriptionInput}
+            onChange={(e) => onhandleChange(e)}
           />
-          <Button variant="contained" color="primary" onClick={addTask}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={addTask}
+            size="small"
+          >
             Add Task
           </Button>
         </Grid2>
