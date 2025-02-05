@@ -3,6 +3,7 @@ import { Grid2, Button, TextField, Box } from "@mui/material";
 import { DragDropContext } from "react-beautiful-dnd";
 import TaskList from "./TaskList";
 import { useDataController, setTaskData, setInputData } from "./Context";
+import Swal from "sweetalert2";
 
 const TaskManagement = () => {
   const [controller, dispatch] = useDataController();
@@ -68,12 +69,18 @@ const TaskManagement = () => {
   };
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
-
     // If the item is dropped outside the allowed area or in the same position
+    if (source.droppableId === "DONE") {
+      Swal.fire({
+        icon: "error",
+        text: "You Connot Change the Status once its DONE using Drag and Drop.",
+      });
+    }
     if (
       !destination ||
       (destination.droppableId === source.droppableId &&
-        destination.index === source.index)
+        destination.index === source.index) ||
+      source.droppableId === "DONE"
     ) {
       return;
     }
