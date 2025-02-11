@@ -3,7 +3,7 @@ import { Grid2, Button, TextField, Box } from "@mui/material";
 import { DragDropContext } from "react-beautiful-dnd";
 import TaskList from "./TaskList";
 import { useDataController, setTaskData, setInputData } from "./Context";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 
 const TaskManagement = () => {
   const [controller, dispatch] = useDataController();
@@ -56,6 +56,7 @@ const TaskManagement = () => {
       description: InputData.descriptionInput,
       status: "TODO",
       createdAt: new Date().toLocaleString(),
+      updatedData: [],
     };
 
     setTaskData(dispatch, [...TaskData, newTask]);
@@ -70,32 +71,37 @@ const TaskManagement = () => {
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
     // If the item is dropped outside the allowed area or in the same position
-    if (source.droppableId === "DONE") {
-      Swal.fire({
-        icon: "error",
-        text: "You Connot Change the Status once its DONE using Drag and Drop.",
-      });
-    }
+    // if (source.droppableId === "DONE") {
+    //   Swal.fire({
+    //     icon: "error",
+    //     text: "You Connot Change the Status once its DONE using Drag and Drop.",
+    //   });
+    // }
     if (
       !destination ||
       (destination.droppableId === source.droppableId &&
-        destination.index === source.index) ||
-      source.droppableId === "DONE"
+        destination.index === source.index)
+      // || source.droppableId === "DONE"
     ) {
       return;
     }
-
     const updatedTasks = [...TaskData];
     const draggedTask = updatedTasks.find((task) => task.id === draggableId);
 
     // Update the status of the dragged task based on the column it was dropped in
     if (draggedTask) {
+      draggedTask.updatedData.push({
+        Taskdate: new Date(),
+        status: source.droppableId,
+      });
+
       draggedTask.status = destination.droppableId;
+      // console.log("Altaf", draggedTask);
     }
     setTaskData(dispatch, updatedTasks);
     // setTasks(dispatch, updatedTasks);
   };
-
+  // console.log("DAta", TaskData);
   // useEffect((dispatch) => {
   //   // const Data =
   //   // {};
