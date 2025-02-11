@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   TextField,
-  Box,
+  // Box,
   Grid2,
   Button,
   Typography,
@@ -17,7 +17,20 @@ function Login() {
   const [profile, setProfile] = useState({});
   // const [SignUp, setSighUp] = useState(false);
 
-  // const [loginJson, setLoginJson] = useState({});
+  const [loginJson, setLoginJson] = useState({
+    EmailId: "",
+    Password: "",
+  });
+
+  const handleLoginDetails = (e) => {
+    if (e.target.name === "EmailId") {
+      loginJson.EmailId = e.target.value;
+    }
+    if (e.target.name === "Password") {
+      loginJson.Password = e.target.value;
+    }
+    setLoginJson({ ...loginJson });
+  };
 
   const navigate = useNavigate();
   const login = useGoogleLogin({
@@ -90,101 +103,146 @@ function Login() {
 
   console.log("profile", profile);
   return (
-    <Box
-      sx={{
-        display: "flex",
-        // justifyContent: "center",
-      }}
-    >
-      <Grid2 container spacing={2} p={2}>
-        {/* {SignUp === false ? ( */}
-        <>
-          <Grid2
-            size={{
-              xs: 12,
-              sm: 12,
-              md: 8,
-              lg: 8,
-              xl: 8,
-              xxl: 8,
-            }}
-          >
-            <Typography variant="h6" color="info">
-              Login
-            </Typography>
-          </Grid2>
-          <Grid2
-            size={{
-              xs: 12,
-              sm: 12,
-              md: 8,
-              lg: 8,
-              xl: 8,
-              xxl: 8,
-            }}
-          >
-            <TextField fullWidth required name="EmailId" label="Email Id" />
-          </Grid2>
-          <Grid2
-            size={{
-              xs: 12,
-              sm: 12,
-              md: 8,
-              lg: 8,
-              xl: 8,
-              xxl: 8,
-            }}
-          >
-            <TextField
-              fullWidth
-              required
-              type="Password"
-              name="Password"
-              label="Password"
-            />
-          </Grid2>
-          <Grid2
-            size={{
-              xs: 12,
-              sm: 12,
-              md: 12,
-              lg: 12,
-              xl: 12,
-              xxl: 12,
-            }}
-          >
-            <Button variant="contained" justifyContent="right">
-              Login
-            </Button>
-          </Grid2>
-
-          <Typography>Don't have an Account</Typography>
-          <Typography
-            sx={{
-              color: "#4F75FF",
-              textDecoration: "underline",
-              cursor: "pointer",
-            }}
-            onClick={() => handleSignUp()}
-          >
-            SignUp
-          </Typography>
-          <Grid2
-            size={{
-              xs: 12,
-              sm: 12,
-              md: 12,
-              lg: 12,
-              xl: 12,
-              xxl: 12,
-            }}
-          >
-            <Button variant="contained" onClick={() => login()}>
-              Login with Google
-            </Button>
-          </Grid2>
-        </>
-        {/* // ) : (
+    <Grid2 container sx={{ display: "flex", justifyContent: "center" }}>
+      <Grid2
+        size={{
+          xs: 12,
+          sm: 12,
+          md: 6,
+          lg: 6,
+          xl: 6,
+          xxl: 6,
+        }}
+      >
+        {/* <Box sx={{ display: "flex", justifyContent: "center" }}> */}
+        <Grid2 container spacing={2} p={2}>
+          {/* {SignUp === false ? ( */}
+          <>
+            <Grid2
+              size={{
+                xs: 12,
+                sm: 12,
+                md: 6,
+                lg: 6,
+                xl: 6,
+                xxl: 6,
+              }}
+            >
+              <Typography variant="h6" color="info">
+                Login
+              </Typography>
+            </Grid2>
+            <Grid2
+              size={{
+                xs: 12,
+                sm: 12,
+                md: 6,
+                lg: 6,
+                xl: 6,
+                xxl: 6,
+              }}
+            >
+              <TextField
+                fullWidth
+                required
+                name="EmailId"
+                label="Email Id"
+                onChange={(e) => handleLoginDetails(e)}
+              />
+            </Grid2>
+            <Grid2
+              size={{
+                xs: 12,
+                sm: 12,
+                md: 6,
+                lg: 6,
+                xl: 6,
+                xxl: 6,
+              }}
+            >
+              <TextField
+                fullWidth
+                required
+                type="Password"
+                name="Password"
+                label="Password"
+                onChange={(e) => handleLoginDetails(e)}
+              />
+            </Grid2>
+            <Grid2
+              size={{
+                xs: 12,
+                sm: 12,
+                md: 6,
+                lg: 6,
+                xl: 6,
+                xxl: 6,
+              }}
+              sx={{ display: "flex", justifyContent: "right" }}
+            >
+              <Button variant="contained">Login</Button>
+            </Grid2>
+            <Grid2
+              size={{
+                xs: 12,
+                sm: 12,
+                md: 6,
+                lg: 6,
+                xl: 6,
+                xxl: 6,
+              }}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
+              <Typography>Don't have an Account </Typography>
+              <Typography
+                sx={{
+                  color: "#4F75FF",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                }}
+                onClick={() => handleSignUp()}
+              >
+                SignUp
+              </Typography>
+            </Grid2>
+            <Grid2
+              size={{
+                xs: 12,
+                sm: 12,
+                md: 6,
+                lg: 6,
+                xl: 6,
+                xxl: 6,
+              }}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
+              <Button variant="contained" onClick={() => login()}>
+                Login with Google
+              </Button>
+            </Grid2>
+            <Grid2
+              size={{
+                xs: 12,
+                sm: 12,
+                md: 6,
+                lg: 6,
+                xl: 6,
+                xxl: 6,
+              }}
+            >
+              <Typography
+                sx={{
+                  color: "#D84040",
+                  textDecoration: "underline",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                Please proceed with Google
+              </Typography>
+            </Grid2>
+          </>
+          {/* // ) : (
         //   <>
         //     <Grid2
         //       size={{
@@ -200,7 +258,7 @@ function Login() {
         //         Signup
         //       </Typography>
         //     </Grid2>
-        //     <Grid2 size={{ xs: 6, md: 8 }}>
+        //     <Grid2 size={{ xs: 12, md: 8 }}>
         //       {" "}
         //       <TextField
         //         fullWidth
@@ -282,8 +340,10 @@ function Login() {
         //     </Grid2>
         //   </>
         // )} */}
+        </Grid2>
+        {/* </Box> */}
       </Grid2>
-    </Box>
+    </Grid2>
   );
 }
 
